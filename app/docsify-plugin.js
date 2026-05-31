@@ -4453,6 +4453,7 @@ window.$docsify = {
           return content;
         }
         latestPaperRawMarkdown = content || '';
+        window.latestPaperRawMarkdown = latestPaperRawMarkdown;
 
         const { meta, body } = parseFrontMatter(content);
         if (!meta) {
@@ -4661,6 +4662,15 @@ window.$docsify = {
             latestPaperRawMarkdown,
           );
         }, 1); // 延迟执行，等待 DOM 渲染完毕
+
+        // K-Base save button injection
+        try {
+          if (window.KBaseSave && typeof window.KBaseSave.injectSaveButton === 'function') {
+            window.KBaseSave.injectSaveButton();
+          }
+        } catch (e) {
+          // ignore
+        }
       });
       // ----------------------------------------------------
       // I. 响应式侧边栏：窄屏首次加载时确保收起（仅移除 close 类）
